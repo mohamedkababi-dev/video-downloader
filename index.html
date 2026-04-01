@@ -3,83 +3,107 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Video Downloader</title>
+<title>تحميل الفيديو</title>
 
 <style>
 body {
-  font-family: Arial;
-  background: #0f172a;
-  color: white;
-  text-align: center;
-  padding: 50px;
+    margin: 0;
+    font-family: Arial;
+    background: linear-gradient(135deg, #0f172a, #1e293b);
+    color: white;
+    text-align: center;
 }
 
 .container {
-  background: #1e293b;
-  padding: 30px;
-  border-radius: 15px;
-  max-width: 400px;
-  margin: auto;
+    margin-top: 80px;
+    background: #1e293b;
+    padding: 30px;
+    border-radius: 20px;
+    max-width: 400px;
+    margin-left: auto;
+    margin-right: auto;
+    box-shadow: 0 0 20px rgba(0,0,0,0.5);
+}
+
+h1 {
+    margin-bottom: 10px;
 }
 
 input {
-  width: 90%;
-  padding: 10px;
-  border-radius: 10px;
-  border: none;
-  margin-top: 15px;
+    width: 90%;
+    padding: 12px;
+    border-radius: 10px;
+    border: none;
+    margin-top: 15px;
 }
 
 button {
-  padding: 10px 20px;
-  border: none;
-  border-radius: 10px;
-  background: #22c55e;
-  color: white;
-  margin-top: 15px;
-  cursor: pointer;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 12px;
+    background: #22c55e;
+    color: white;
+    margin-top: 15px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: 0.3s;
 }
 
 button:hover {
-  background: #16a34a;
+    background: #16a34a;
 }
 
 .result {
-  margin-top: 20px;
+    margin-top: 20px;
 }
 </style>
 
 </head>
+
 <body>
 
 <div class="container">
-  <h2>🎬 تحميل الفيديو</h2>
-  <p>الصق رابط الفيديو هنا</p>
+    <h1>🎬 تحميل الفيديو</h1>
+    <p>الصق رابط YouTube هنا</p>
 
-  <input type="text" id="url" placeholder="ضع الرابط هنا...">
-  <br>
-  <button onclick="download()">تحميل</button>
+    <input type="text" id="url" placeholder="https://youtube.com/...">
 
-  <div class="result" id="result"></div>
+    <br>
+    <button onclick="downloadVideo()">تحميل الفيديو</button>
+    <button onclick="downloadMP3()">تحميل MP3</button>
+
+    <div class="result" id="result"></div>
 </div>
 
 <script>
-function download() {
-  let url = document.getElementById("url").value;
+function extractID(url) {
+    let regExp = /(?:youtube\.com.*(?:\?|&)v=|youtu\.be\/)([^&]+)/;
+    let match = url.match(regExp);
+    return match ? match[1] : null;
+}
 
-  if (!url) {
-    alert("ضع رابط أولاً");
-    return;
-  }
+function downloadVideo() {
+    let url = document.getElementById("url").value;
+    let id = extractID(url);
 
-  // موقع API مجاني للتجربة
-  let api = "https://api.vevioz.com/api/button/mp4?url=" + encodeURIComponent(url);
+    if (!id) {
+        alert("رابط غير صحيح!");
+        return;
+    }
 
-  document.getElementById("result").innerHTML =
-    `<p>اضغط للتحميل 👇</p>
-     <a href="${api}" target="_blank">
-       <button>تحميل الفيديو</button>
-     </a>`;
+    window.open("https://ssyoutube.com/watch?v=" + id);
+}
+
+function downloadMP3() {
+    let url = document.getElementById("url").value;
+    let id = extractID(url);
+
+    if (!id) {
+        alert("رابط غير صحيح!");
+        return;
+    }
+
+    window.open("https://ytmp3.nu/en/?url=https://www.youtube.com/watch?v=" + id);
 }
 </script>
 
